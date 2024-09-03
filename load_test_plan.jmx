@@ -12,17 +12,17 @@
       <hashTree>
         <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" enabled="true">
           <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-          <stringProp name="ThreadGroup.num_threads">10</stringProp> <!-- Number of concurrent users -->
-          <stringProp name="ThreadGroup.ramp_time">10</stringProp> <!-- Time to ramp up to full load -->
-          <stringProp name="ThreadGroup.duration">60</stringProp> <!-- Test duration in seconds -->
+          <stringProp name="ThreadGroup.num_threads">10</stringProp> <!-- Number of threads -->
+          <stringProp name="ThreadGroup.ramp_time">10</stringProp> <!-- Ramp-up time -->
+          <stringProp name="ThreadGroup.duration">60</stringProp> <!-- Duration -->
           <stringProp name="ThreadGroup.delay"></stringProp>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpSamplerGui" testclass="HTTPSamplerProxy" enabled="true">
-              <stringProp name="HTTPSampler.domain">your-application-domain.com</stringProp> <!-- Replace with your application domain -->
-              <stringProp name="HTTPSampler.port">80</stringProp> <!-- Replace with your application port, if different -->
-              <stringProp name="HTTPSampler.protocol">http</stringProp> <!-- Use 'https' if your application is using SSL -->
-              <stringProp name="HTTPSampler.path">/</stringProp> <!-- Replace with the endpoint you want to test -->
-              <stringProp name="HTTPSampler.method">GET</stringProp> <!-- HTTP method -->
+              <stringProp name="HTTPSampler.domain">your-application-domain.com</stringProp> <!-- Replace with your domain -->
+              <stringProp name="HTTPSampler.port">80</stringProp> <!-- Replace with your port -->
+              <stringProp name="HTTPSampler.protocol">http</stringProp> <!-- Use 'https' if needed -->
+              <stringProp name="HTTPSampler.path">/</stringProp> <!-- Endpoint to test -->
+              <stringProp name="HTTPSampler.method">GET</stringProp> <!-- HTTP Method -->
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
               <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
