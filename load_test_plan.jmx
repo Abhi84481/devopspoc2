@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.5" jmeter="5.5">
-  <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" enabled="true">
-      <stringProp name="TestPlan.comments">Basic performance test for Java application</stringProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
-        <collectionProp name="Arguments.arguments"/>
-      </elementProp>
-      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+<jmeterTestPlan version="1.2" properties="5.1" jmeter="5.4.1">
+  <testPlan>
+    <hashTree>
+      <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+        <stringProp name="TestPlan.comments"/>
+        <boolProp name="TestPlan.functional_mode">false</boolProp>
+        <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+        <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="TestPlan.test_plan_comments"/>
+        <stringProp name="TestPlan.test_plan_name">Basic Test Plan</stringProp>
+        <boolProp name="TestPlan.tear_down_on_shutdown">true</boolProp>
+        <boolProp name="TestPlan.enable_reuse">true</boolProp>
+      </TestPlan>
       <hashTree>
-        <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" enabled="true">
-          <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-          <stringProp name="ThreadGroup.num_threads">10</stringProp> <!-- Number of threads -->
-          <stringProp name="ThreadGroup.ramp_time">10</stringProp> <!-- Ramp-up time -->
-          <stringProp name="ThreadGroup.duration">60</stringProp> <!-- Duration -->
-          <stringProp name="ThreadGroup.delay"></stringProp>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpSamplerGui" testclass="HTTPSamplerProxy" enabled="true">
-              <stringProp name="HTTPSampler.domain">your-application-domain.com</stringProp> <!-- Replace with your domain -->
-              <stringProp name="HTTPSampler.port">80</stringProp> <!-- Replace with your port -->
-              <stringProp name="HTTPSampler.protocol">http</stringProp> <!-- Use 'https' if needed -->
-              <stringProp name="HTTPSampler.path">/</stringProp> <!-- Endpoint to test -->
-              <stringProp name="HTTPSampler.method">GET</stringProp> <!-- HTTP Method -->
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.postBodyRaw"></stringProp>
-              <hashTree/>
-            </HTTPSamplerProxy>
-          </hashTree>
+        <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+          <stringProp name="ThreadGroup.name">Thread Group</stringProp>
+          <stringProp name="ThreadGroup.num_threads">1</stringProp>
+          <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+          <longProp name="ThreadGroup.start_time">1633072800000</longProp>
+          <longProp name="ThreadGroup.end_time">1633076400000</longProp>
+          <boolProp name="ThreadGroup.scheduler">false</boolProp>
+          <stringProp name="ThreadGroup.duration"/>
+          <stringProp name="ThreadGroup.delay"/>
+          <boolProp name="ThreadGroup.on_sample_error">continue</boolProp>
         </ThreadGroup>
+        <hashTree>
+          <JavaSampler guiclass="JavaSamplerGui" testclass="JavaSampler" testname="Sample Java Request" enabled="true">
+            <stringProp name="JavaSampler.classname">org.apache.jmeter.protocol.java.sampler.JSR223Sampler</stringProp>
+            <elementProp name="JavaSampler.parameters" elementType="Arguments">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="JavaSampler.script">println("Load Test Placeholder")</stringProp>
+          </JavaSampler>
+          <hashTree/>
+        </hashTree>
       </hashTree>
-    </TestPlan>
-  </hashTree>
+    </hashTree>
+  </testPlan>
 </jmeterTestPlan>
