@@ -59,6 +59,8 @@ spec:
                     script {
                         echo 'Building project with Maven...'
                         sh 'mvn clean package -DskipTests'
+                        echo 'sleep'
+                        sh 'sleep 150'
                     }
                 }
             }
