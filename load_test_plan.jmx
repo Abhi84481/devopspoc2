@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.1.1" jmeter="5.4.1">
+<jmeterTestPlan version="1.2" properties="5.4.1" jmeter="5.4.1">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan">
-      <stringProp name="TestPlan.comments"></stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" enabled="true">
+      <stringProp name="TestPlan.comments">Basic performance test for Java application</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
@@ -12,28 +12,24 @@
       <hashTree>
         <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" enabled="true">
           <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-          <stringProp name="ThreadGroup.test_data_source"></stringProp>
-          <stringProp name="ThreadGroup.num_threads">1</stringProp>
-          <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-          <longProp name="ThreadGroup.start_time">1633102800000</longProp>
-          <longProp name="ThreadGroup.end_time">1633106400000</longProp>
-          <boolProp name="ThreadGroup.scheduler">false</boolProp>
-          <stringProp name="ThreadGroup.duration"></stringProp>
+          <stringProp name="ThreadGroup.num_threads">10</stringProp> <!-- Number of concurrent users -->
+          <stringProp name="ThreadGroup.ramp_time">10</stringProp> <!-- Time to ramp up to full load -->
+          <stringProp name="ThreadGroup.duration">60</stringProp> <!-- Test duration in seconds -->
           <stringProp name="ThreadGroup.delay"></stringProp>
           <hashTree>
-            <Sampler guiclass="HttpSamplerGui" testclass="HttpSampler" enabled="true">
-              <stringProp name="HTTPSampler.domain">www.example.com</stringProp>
-              <stringProp name="HTTPSampler.port">80</stringProp>
-              <stringProp name="HTTPSampler.protocol">http</stringProp>
-              <stringProp name="HTTPSampler.path">/</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
+            <HTTPSamplerProxy guiclass="HttpSamplerGui" testclass="HTTPSamplerProxy" enabled="true">
+              <stringProp name="HTTPSampler.domain">your-application-domain.com</stringProp> <!-- Replace with your application domain -->
+              <stringProp name="HTTPSampler.port">80</stringProp> <!-- Replace with your application port, if different -->
+              <stringProp name="HTTPSampler.protocol">http</stringProp> <!-- Use 'https' if your application is using SSL -->
+              <stringProp name="HTTPSampler.path">/</stringProp> <!-- Replace with the endpoint you want to test -->
+              <stringProp name="HTTPSampler.method">GET</stringProp> <!-- HTTP method -->
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
               <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
               <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
               <stringProp name="HTTPSampler.postBodyRaw"></stringProp>
               <hashTree/>
-            </Sampler>
+            </HTTPSamplerProxy>
           </hashTree>
         </ThreadGroup>
       </hashTree>
