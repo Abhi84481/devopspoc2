@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.5" jmeter="5.5">
+<jmeterTestPlan version="1.2" properties="5.1" jmeter="5.5">
   <testPlan>
     <hashTree>
       <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
@@ -27,13 +27,13 @@
           <boolProp name="ThreadGroup.on_sample_error">continue</boolProp>
         </ThreadGroup>
         <hashTree>
-          <JavaSampler guiclass="JavaSamplerGui" testclass="JavaSampler" testname="Sample Java Request" enabled="true">
+          <Sampler guiclass="JavaSamplerGui" testclass="JavaSampler" testname="Sample Java Request" enabled="true">
             <stringProp name="JavaSampler.classname">org.apache.jmeter.protocol.java.sampler.JSR223Sampler</stringProp>
             <elementProp name="JavaSampler.parameters" elementType="Arguments">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
             <stringProp name="JavaSampler.script">println("Load Test Placeholder")</stringProp>
-          </JavaSampler>
+          </Sampler>
           <hashTree/>
         </hashTree>
       </hashTree>
