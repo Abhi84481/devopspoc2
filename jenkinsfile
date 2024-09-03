@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             label 'jenkins-pipeline'
-            defaultContainer 'jnlp'
+            inheritFrom 'base-pod-template' // Inherit from a base pod template
             yaml '''
 apiVersion: v1
 kind: Pod
@@ -11,7 +11,7 @@ metadata:
 spec:
   containers:
   - name: jnlp
-    image: jenkins/inbound-agent
+    image: jenkins/inbound-agent:latest
     args: ['${computer.jnlpUrl}']
     volumeMounts:
     - mountPath: /var/jenkins_home
@@ -25,7 +25,10 @@ spec:
     stages {
         stage('Clone Repository') {
             steps {
-                git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
+                echo 'Cloning repository...'
+                // Cloning the repository is not required if the pipeline is already running in the context of the repo.
+                // If needed, use the git step here as follows:
+                // git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
             }
         }
 
@@ -33,7 +36,7 @@ spec:
             agent {
                 kubernetes {
                     label 'junit-agent'
-                    defaultContainer 'junit'
+                    inheritFrom 'base-pod-template' // Inherit from a base pod template
                     yaml '''
 apiVersion: v1
 kind: Pod
@@ -42,7 +45,7 @@ metadata:
 spec:
   containers:
   - name: jnlp
-    image: jenkins/inbound-agent
+    image: jenkins/inbound-agent:latest
     args: ['${computer.jnlpUrl}']
     volumeMounts:
     - mountPath: /var/jenkins_home
@@ -67,7 +70,7 @@ spec:
             agent {
                 kubernetes {
                     label 'maven-agent'
-                    defaultContainer 'maven'
+                    inheritFrom 'base-pod-template' // Inherit from a base pod template
                     yaml '''
 apiVersion: v1
 kind: Pod
@@ -76,7 +79,7 @@ metadata:
 spec:
   containers:
   - name: jnlp
-    image: jenkins/inbound-agent
+    image: jenkins/inbound-agent:latest
     args: ['${computer.jnlpUrl}']
     volumeMounts:
     - mountPath: /var/jenkins_home
