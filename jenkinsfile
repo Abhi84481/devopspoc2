@@ -29,10 +29,9 @@ spec:
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone Source Code') {
             steps {
                 script {
-                    // Clone the repository
                     git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
                 }
             }
@@ -42,7 +41,6 @@ spec:
             steps {
                 container('maven') {
                     script {
-                        // Run JUnit tests
                         echo 'Running JUnit tests...'
                         sh 'mvn test'
                     }
@@ -54,9 +52,8 @@ spec:
             steps {
                 container('maven') {
                     script {
-                        // Build the project using Maven
                         echo 'Building project with Maven...'
-                        sh 'mvn clean package'
+                        sh 'mvn clean package -DskipTests'
                     }
                 }
             }
