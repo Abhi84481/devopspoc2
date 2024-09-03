@@ -1,42 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.1" jmeter="5.5">
-  <testPlan>
-    <hashTree>
-      <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
-        <stringProp name="TestPlan.comments"/>
-        <boolProp name="TestPlan.functional_mode">false</boolProp>
-        <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-        <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
-          <collectionProp name="Arguments.arguments"/>
-        </elementProp>
-        <stringProp name="TestPlan.test_plan_comments"/>
-        <stringProp name="TestPlan.test_plan_name">Basic Test Plan</stringProp>
-        <boolProp name="TestPlan.tear_down_on_shutdown">true</boolProp>
-        <boolProp name="TestPlan.enable_reuse">true</boolProp>
-      </TestPlan>
-      <hashTree>
-        <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
-          <stringProp name="ThreadGroup.name">Thread Group</stringProp>
-          <stringProp name="ThreadGroup.num_threads">1</stringProp>
-          <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-          <longProp name="ThreadGroup.start_time">1633072800000</longProp>
-          <longProp name="ThreadGroup.end_time">1633076400000</longProp>
-          <boolProp name="ThreadGroup.scheduler">false</boolProp>
-          <stringProp name="ThreadGroup.duration"/>
-          <stringProp name="ThreadGroup.delay"/>
-          <boolProp name="ThreadGroup.on_sample_error">continue</boolProp>
-        </ThreadGroup>
-        <hashTree>
-          <Sampler guiclass="JavaSamplerGui" testclass="JavaSampler" testname="Sample Java Request" enabled="true">
-            <stringProp name="JavaSampler.classname">org.apache.jmeter.protocol.java.sampler.JSR223Sampler</stringProp>
-            <elementProp name="JavaSampler.parameters" elementType="Arguments">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="JavaSampler.script">println("Load Test Placeholder")</stringProp>
-          </Sampler>
-          <hashTree/>
-        </hashTree>
-      </hashTree>
-    </hashTree>
-  </testPlan>
+<jmeterTestPlan version="1.2" xmlns="
+http://jakarta.apache.org/jmeter">
+<testPlan>
+<stringProp name="TestPlan.comments"/>
+<boolProp name="TestPlan.functional_mode">false</boolProp>
+<boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+<elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+<collectionProp name="Arguments.arguments"/>
+</elementProp>
+<property name="TestPlan.name">HelloWorld Test Plan</property>
+<property name="TestPlan.comments"/>
+<property name="TestPlan.enable">true</property>
+<elementProp name="TestPlan.test_plan" elementType="TestPlan">
+<stringProp name="TestPlan.name">HelloWorld Test Plan</stringProp>
+<boolProp name="TestPlan.functional_mode">false</boolProp>
+<boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+<elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+<collectionProp name="Arguments.arguments"/>
+</elementProp>
+<elementProp name="TestPlan.test_elements" elementType="TestElement">
+<collectionProp name="TestElement.elements">
+<elementProp name="ThreadGroup" elementType="ThreadGroup">
+<stringProp name="ThreadGroup.name">HelloWorld Thread Group</stringProp>
+<stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+<elementProp name="ThreadGroup.main_threads" elementType="Collection">
+<collectionProp name="ThreadGroup.main_threads">
+<elementProp name="ThreadGroup.main_thread" elementType="ThreadGroup">
+<stringProp name="ThreadGroup.name">HelloWorld Thread Group</stringProp>
+<stringProp name="ThreadGroup.num_threads">1</stringProp>
+<stringProp name="ThreadGroup.ramp_time">1</stringProp>
+<stringProp name="ThreadGroup.scheduler">false</stringProp>
+<stringProp name="ThreadGroup.duration"/>
+<stringProp name="ThreadGroup.delay"/>
+<elementProp name="ThreadGroup.test_elements" elementType="Collection">
+<collectionProp name="TestElement.elements">
+<elementProp name="HttpSampler" elementType="HTTPSamplerProxy">
+<stringProp name="HTTPSampler.domain">
+www.example.com</stringProp>
+<stringProp name="HTTPSampler.port">80</stringProp>
+<stringProp name="HTTPSampler.protocol">http</stringProp>
+<stringProp name="HTTPSampler.path">/</stringProp>
+<stringProp name="HTTPSampler.method">GET</stringProp>
+<stringProp name="HTTPSampler.contentEncoding"/>
+<elementProp name="HTTPSampler.parameters" elementType="Arguments">
+<collectionProp name="Arguments.arguments"/>
+</elementProp>
+<boolProp name="HTTPSampler.monitor">false</boolProp>
+<stringProp name="HTTPSampler.use_keepalive">true</stringProp>
+</elementProp>
+<elementProp name="ResponseAssertion" elementType="Assertion">
+<stringProp name="ResponseAssertion.name">Response Assertion</stringProp>
+<elementProp name="ResponseAssertion.test_field">response_code</elementProp>
+<elementProp name="ResponseAssertion.assertion_type">2</elementProp>
+<collectionProp name="ResponseAssertion.assertions">
+<stringProp name="ResponseAssertion.assertion">200</stringProp>
+</collectionProp>
+</elementProp>
+</collectionProp>
+</elementProp>
+</elementProp>
+</collectionProp>
+</elementProp>
+</elementProp>
+</collectionProp>
+</elementProp>
+</elementProp>
+<property name="TestPlan.user_defined_variables"/>
+</testPlan>
 </jmeterTestPlan>
