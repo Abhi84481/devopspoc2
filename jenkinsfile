@@ -22,7 +22,7 @@ spec:
     - cat
     tty: true
   - name: jmeter
-    image: justb4/jmeter:latest  # this is official apache jmeter image
+    image: justb4/jmeter:5.5  # this is official apache jmeter image
     command:
     - cat
     tty: true
