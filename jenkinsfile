@@ -22,7 +22,7 @@ spec:
     - cat
     tty: true
 # Install jmeter
-- name: jmeter
+  - name: jmeter
     image: justb4/jmeter:5.4.1
     command:
     - cat
