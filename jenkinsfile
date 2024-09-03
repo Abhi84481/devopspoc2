@@ -60,7 +60,7 @@ spec:
                         echo 'Building project with Maven...'
                         sh 'mvn clean package -DskipTests'
                         echo 'sleep'
-                        sh 'sleep 150'
+                        sh 'sleep 300'
                     }
                 }
             }
