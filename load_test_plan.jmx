@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-example.com</stringProp>
+<jmeterTestPlan version="1.2" xmlns="http://jmeter.apache.org/xsd/jmeterTestPlan.xsd">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+        <stringProp name="TestPlan.comments"></stringProp>
+        <boolProp name="TestPlan.enableNaming">true</boolProp>
+        <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+            <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <boolProp name="TestPlan.tear_down_on_shutdown">true</boolProp>
+        <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+        <elementProp name="TestPlan.thread_groups" elementType="ThreadGroup">
+            <collectionProp name="ThreadGroup.main_thread_group">
+                <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+                    <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+                    <stringProp name="ThreadGroup.num_threads">1</stringProp>
+                    <stringProp name="ThreadGroup.delay">0</stringProp>
+                    <boolProp name="ThreadGroup.on_sample_error">continue</boolProp>
+                </ThreadGroup>
+            </collectionProp>
+        </elementProp>
+    </TestPlan>
+    <hashTree>
+        <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+            <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+            <stringProp name="ThreadGroup.num_threads">1</stringProp>
+            <stringProp name="ThreadGroup.delay">0</stringProp>
+            <boolProp name="ThreadGroup.on_sample_error">continue</boolProp>
+        </ThreadGroup>
+        <hashTree>
+            <HttpSampler guiclass="HttpSamplerGui" testclass="HttpSampler" testname="HTTP Request" enabled="true">
+                <stringProp name="HTTPSampler.domain">example.com</stringProp>
                 <stringProp name="HTTPSampler.port">80</stringProp>
                 <stringProp name="HTTPSampler.protocol">http</stringProp>
                 <stringProp name="HTTPSampler.path">/</stringProp>
@@ -7,11 +36,6 @@ example.com</stringProp>
                 <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <elementProp name="HTTPsampler.files" elementType="Arguments">
-                    <collectionProp name="Arguments.arguments"/>
-                </elementProp>
             </HttpSampler>
             <hashTree/>
         </hashTree>
