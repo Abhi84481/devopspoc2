@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'jenkins-pipeline'
+            label 'jenkins-jenkins-agent'
             inheritFrom 'base-pod-template' // Inherit from a base pod template
             yaml '''
 apiVersion: v1
@@ -12,7 +12,7 @@ spec:
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
-    args: ['${computer.jnlpUrl}']
+    args: ['${computer.jnlpmac} ${computer.name}']
     volumeMounts:
     - mountPath: /var/jenkins_home
       name: jenkins-home
