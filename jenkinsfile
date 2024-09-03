@@ -12,15 +12,17 @@ spec:
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
+    # Jenkins will handle the arguments automatically
     volumeMounts:
     - mountPath: /var/jenkins_home
       name: jenkins-home
   - name: maven
-    image: maven:3.8.5-openjdk-11
+    image: maven:3.8.5-openjdk-11  # Use a Maven Docker image
     command:
     - cat
     tty: true
-  - name: jmeter
+# Install jmeter
+- name: jmeter
     image: justb4/jmeter:5.4.1
     command:
     - cat
@@ -33,10 +35,9 @@ spec:
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone Source Code') {
             steps {
                 script {
-                    // Clone the repository
                     git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
                 }
             }
@@ -46,7 +47,6 @@ spec:
             steps {
                 container('maven') {
                     script {
-                        // Run JUnit tests
                         echo 'Running JUnit tests...'
                         sh 'mvn test'
                     }
@@ -58,15 +58,13 @@ spec:
             steps {
                 container('maven') {
                     script {
-                        // Build the project using Maven (without running tests)
                         echo 'Building project with Maven...'
                         sh 'mvn clean package -DskipTests'
                     }
                 }
             }
         }
-
-        stage('Load Performance Test with JMeter') {
+          stage('Load Performance Test with JMeter') {
             steps {
                 container('jmeter') {
                     script {
