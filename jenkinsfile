@@ -21,6 +21,12 @@ spec:
     command:
     - cat
     tty: true
+# Install jmeter
+- name: jmeter
+    image: justb4/jmeter:5.4.1
+    command:
+    - cat
+    tty: true
   volumes:
   - name: jenkins-home
     emptyDir: {}
@@ -54,6 +60,17 @@ spec:
                     script {
                         echo 'Building project with Maven...'
                         sh 'mvn clean package -DskipTests'
+                    }
+                }
+            }
+        }
+          stage('Load Performance Test with JMeter') {
+            steps {
+                container('jmeter') {
+                    script {
+                        // Run JMeter performance tests
+                        echo 'Running JMeter load test...'
+                        sh 'jmeter -n -t load_test_plan.jmx -l results.jtl -e -o /results'
                     }
                 }
             }
