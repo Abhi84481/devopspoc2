@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan>
+<jmeterTestPlan version="1.2" properties="5.1.1" jmeter="5.4.1">
   <hashTree>
-    <TestPlan>
-      <stringProp name="TestPlan.comments">Load Test Plan</stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan">
+      <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      <stringProp name="TestPlan.user_define_classpath"></stringProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <elementProp name="TestPlan.test_plan" elementType="TestPlan">
-        <collectionProp name="TestPlan.thread_groups"/>
-      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+      <hashTree>
+        <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" enabled="true">
+          <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+          <stringProp name="ThreadGroup.test_data_source"></stringProp>
+          <stringProp name="ThreadGroup.num_threads">1</stringProp>
+          <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+          <longProp name="ThreadGroup.start_time">1633102800000</longProp>
+          <longProp name="ThreadGroup.end_time">1633106400000</longProp>
+          <boolProp name="ThreadGroup.scheduler">false</boolProp>
+          <stringProp name="ThreadGroup.duration"></stringProp>
+          <stringProp name="ThreadGroup.delay"></stringProp>
+          <hashTree>
+            <Sampler guiclass="HttpSamplerGui" testclass="HttpSampler" enabled="true">
+              <stringProp name="HTTPSampler.domain">www.example.com</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
+              <stringProp name="HTTPSampler.protocol">http</stringProp>
+              <stringProp name="HTTPSampler.path">/</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.postBodyRaw"></stringProp>
+              <hashTree/>
+            </Sampler>
+          </hashTree>
+        </ThreadGroup>
+      </hashTree>
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
