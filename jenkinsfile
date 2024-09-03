@@ -1,107 +1,38 @@
 pipeline {
-    agent {
-        kubernetes {
-            label 'jenkins-jenkins-agent'
-            inheritFrom 'base-pod-template' // Inherit from a base pod template
-            yaml '''
-apiVersion: v1
-kind: Pod
-metadata:
-  name: jenkins-pipeline
-spec:
-  containers:
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
-    args: ['${computer.jnlpmac} ${computer.name}']
-    volumeMounts:
-    - mountPath: /var/jenkins_home
-      name: jenkins-home
-  volumes:
-  - name: jenkins-home
-    emptyDir: {}
-            '''
-        }
-    }
+    agent any  // Use any available agent for this pipeline
+
     stages {
         stage('Clone Repository') {
             steps {
-                echo 'Cloning repository...'
-                // Cloning the repository is not required if the pipeline is already running in the context of the repo.
-                // If needed, use the git step here as follows:
-                // git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
+                script {
+                    // Clone the repository
+                    git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
+                }
             }
         }
 
         stage('JUnit Test') {
-            agent {
-                kubernetes {
-                    label 'junit-agent'
-                    inheritFrom 'base-pod-template' // Inherit from a base pod template
-                    yaml '''
-apiVersion: v1
-kind: Pod
-metadata:
-  name: junit-agent
-spec:
-  containers:
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
-    args: ['${computer.jnlpmac} ${computer.name}']
-    volumeMounts:
-    - mountPath: /var/jenkins_home
-      name: jenkins-home
-  - name: junit
-    image: maven:3.8.5-jdk-11
-    command:
-    - cat
-    tty: true
-  volumes:
-  - name: jenkins-home
-    emptyDir: {}
-                    '''
-                }
-            }
             steps {
-                sh 'mvn test'
+                script {
+                    // Run JUnit tests
+                    sh 'mvn test'
+                }
             }
         }
 
         stage('Build with Maven') {
-            agent {
-                kubernetes {
-                    label 'maven-agent'
-                    inheritFrom 'base-pod-template' // Inherit from a base pod template
-                    yaml '''
-apiVersion: v1
-kind: Pod
-metadata:
-  name: maven-agent
-spec:
-  containers:
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
-    args: ['${computer.jnlpmac} ${computer.name}']
-    volumeMounts:
-    - mountPath: /var/jenkins_home
-      name: jenkins-home
-  - name: maven
-    image: maven:3.8.5-jdk-11
-    command:
-    - cat
-    tty: true
-  volumes:
-  - name: jenkins-home
-    emptyDir: {}
-                    '''
-                }
-            }
             steps {
-                sh 'mvn clean package'
+                script {
+                    // Build the project using Maven
+                    sh 'mvn clean package'
+                }
             }
         }
     }
+
     post {
         always {
+            // Clean up workspace after pipeline execution
             cleanWs()
         }
     }
