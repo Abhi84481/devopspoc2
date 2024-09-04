@@ -26,6 +26,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: selenium
+    image: selenium/standalone-chrome:latest  # this is official selenium image
+    command:
+    - cat
+    tty: true
   volumes:
   - name: jenkins-home
     emptyDir: {}
@@ -58,7 +63,7 @@ spec:
                 container('maven') {
                     script {
                         echo 'Running JUnit tests...'
-                        sh 'mvn test'
+                        sh 'mvn test -Dtest=src/test/java/com/example/HelloWorldTest.java'
                     }
                 }
             }
@@ -76,6 +81,16 @@ spec:
                     }
                 }
             }
-        } 
+        }
+        stage('Selenium Test') {
+            steps {
+                container('selenium') {
+                    script {
+                            echo 'Running Selenium tests...'
+                            sh 'mvn test -Dtest=src/test/java/com/example/Selenium.java'
+                    }
+                }
+            }
+        }
     }
 }
