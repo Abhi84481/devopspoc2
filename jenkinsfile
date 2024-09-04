@@ -12,15 +12,25 @@ spec:
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
+    # Jenkins will handle the arguments automatically
     volumeMounts:
     - mountPath: /var/jenkins_home
       name: jenkins-home
   - name: maven
-    image: maven:3.8.5-openjdk-11
+    image: maven:3.8.5-openjdk-11  # Use a Maven Docker image
+    command:
+    - cat
+    tty: true
   - name: jmeter
-    image: justb4/jmeter:5.5
+    image: justb4/jmeter:5.5  # this is official apache jmeter image
+    command:
+    - cat
+    tty: true
   - name: selenium
-    image: selenium/standalone-chrome:latest
+    image: selenium/standalone-chrome:latest  # this is official selenium image
+    command:
+    - cat
+    tty: true
   volumes:
   - name: jenkins-home
     emptyDir: {}
@@ -31,14 +41,19 @@ spec:
     stages {
         stage('Clone Source Code') {
             steps {
-                git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
+                script {
+                    git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
+                }
             }
         }
 
         stage('Build with Maven') {
             steps {
                 container('maven') {
-                    sh 'mvn clean package -DskipTests'
+                    script {
+                        echo 'Building project with Maven...'
+                        sh 'mvn clean package -DskipTests'
+                    }
                 }
             }
         }
@@ -46,25 +61,37 @@ spec:
         stage('Selenium Test') {
             steps {
                 container('selenium') {
-                    sh 'mvn test'
+                    script {
+                            echo 'Running Selenium tests...'
+                            mvn test
+                        '''
+                    }
                 }
             }
         }
-
         stage('JUnit Test') {
             steps {
                 container('maven') {
-                    sh 'mvn test'
+                    script {
+                        echo 'Running JUnit tests...'
+                        sh 'mvn test'
+                    }
                 }
             }
         }
-
         stage('Load Performance Test with JMeter') {
             steps {
                 container('jmeter') {
-                    sh 'jmeter -n -t load_test_plan.jmx -l results.jtl -e -o /results'
+                    script {
+                        // Verify that the JMeter test plan file exists
+                        echo 'Checking if JMeter test plan file exists...'
+                        sh 'ls -l load_test_plan.jmx'
+                        // Run JMeter performance tests
+                        echo 'Running JMeter load test...'
+                        sh 'jmeter -n -t load_test_plan.jmx -l results.jtl -e -o /results'
+                    }
                 }
             }
-        }
+        } 
     }
 }
