@@ -12,38 +12,35 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <junit.jupiter.version>5.9.1</junit.jupiter.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
     </properties>
 
     <dependencies>
-    <!-- JUnit 5 dependency -->
-             
-         <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId> # junit-jupiter-engine is the actual test runner for executing those tests
-        <version>${junit.jupiter.version}</version> # This variable will replace junit version form properties
-        <scope>test</scope>
-       </dependency>
-             
-       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId> # junit-jupiter-api contains the necessary classes and annotations to write tests
-        <version>${junit.jupiter.version}</version>
-        <scope>test</scope>
-    </dependency>
-             
-        <!-- selenium dependency -->
-         <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>4.0.0</version>
-    </dependency>
-             
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>7.4.0</version>
-    </dependency>
+        <!-- JUnit 5 dependency -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Selenium dependency -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -56,7 +53,7 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
-                  <dependencies>
+                    <dependencies>
                         <dependency>
                             <groupId>org.junit.jupiter</groupId>
                             <artifactId>junit-jupiter-engine</artifactId>
@@ -66,25 +63,25 @@
                 </configuration>
             </plugin>
             <plugin>
-<groupId>com.lazerycode.jmeter</groupId>
-<artifactId>jmeter-maven-plugin</artifactId>
-<version>2.1.0</version>
-<configuration>
-<testResultsTimestamp>false</testResultsTimestamp>
-</configuration>
-<executions>
-<execution>
-<configuration>
-<testFilesDirectory>src/test/jmeter/</testFilesDirectory>
-</configuration>
-<id>jmeter-tests</id>
-<phase>verify</phase>
-<goals>
-<goal>jmeter</goal>
-</goals>
-</execution>
-</executions>
-</plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>2.1.0</version>
+                <configuration>
+                    <testResultsTimestamp>false</testResultsTimestamp>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jmeter-tests</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                        <configuration>
+                            <testFilesDirectory>src/test/jmeter/</testFilesDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
