@@ -42,17 +42,6 @@ spec:
             }
         }
 
-        stage('JUnit Test') {
-            steps {
-                container('maven') {
-                    script {
-                        echo 'Running JUnit tests...'
-                        sh 'mvn test'
-                    }
-                }
-            }
-        }
-
         stage('Build with Maven') {
             steps {
                 container('maven') {
@@ -61,6 +50,17 @@ spec:
                         sh 'mvn clean package -DskipTests'
                         echo 'sleep'
                         sh 'sleep 300'
+                    }
+                }
+            }
+        }
+
+        stage('JUnit Test') {
+            steps {
+                container('maven') {
+                    script {
+                        echo 'Running JUnit tests...'
+                        sh 'mvn test'
                     }
                 }
             }
