@@ -79,5 +79,33 @@ spec:
                 }
             }
         }
+        stage('Selenium Test') {
+            steps {
+                container('maven-86dcbf98d6-hzwfk') { // Use the appropriate container name
+                    script {
+                        // Install necessary tools and dependencies
+                        sh '''
+                            echo "Installing dependencies for Selenium..."
+                            apt-get update
+                            apt-get install -y wget unzip openjdk-11-jdk
+
+                            # Install ChromeDriver
+                            wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+                            unzip chromedriver_linux64.zip
+                            mv chromedriver /usr/local/bin/chromedriver
+
+                            # Install Maven if not present
+                            if ! command -v mvn &> /dev/null; then
+                                echo "Maven not found. Installing Maven..."
+                                apt-get install -y maven
+                            fi
+
+                            # Run Selenium tests
+                            mvn test
+                        '''
+                    }
+                }
+            }
+        } 
     }
 }
