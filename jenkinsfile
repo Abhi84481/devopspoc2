@@ -31,19 +31,14 @@ spec:
     stages {
         stage('Clone Source Code') {
             steps {
-                script {
-                    git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
-                }
+                git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
             }
         }
 
         stage('Build with Maven') {
             steps {
                 container('maven') {
-                    script {
-                        echo 'Building project with Maven...'
-                        sh 'mvn clean package -DskipTests'
-                    }
+                    sh 'mvn clean package -DskipTests'
                 }
             }
         }
@@ -51,10 +46,7 @@ spec:
         stage('Selenium Test') {
             steps {
                 container('selenium') {
-                    script {
-                        echo 'Running Selenium tests...'
-                        sh 'mvn test'
-                    }
+                    sh 'mvn test'
                 }
             }
         }
@@ -62,10 +54,7 @@ spec:
         stage('JUnit Test') {
             steps {
                 container('maven') {
-                    script {
-                        echo 'Running JUnit tests...'
-                        sh 'mvn test'
-                    }
+                    sh 'mvn test'
                 }
             }
         }
@@ -73,14 +62,7 @@ spec:
         stage('Load Performance Test with JMeter') {
             steps {
                 container('jmeter') {
-                    script {
-                        // Verify that the JMeter test plan file exists
-                        echo 'Checking if JMeter test plan file exists...'
-                        sh 'ls -l load_test_plan.jmx'
-                        // Run JMeter performance tests
-                        echo 'Running JMeter load test...'
-                        sh 'jmeter -n -t load_test_plan.jmx -l results.jtl -e -o /results'
-                    }
+                    sh 'jmeter -n -t load_test_plan.jmx -l results.jtl -e -o /results'
                 }
             }
         }
