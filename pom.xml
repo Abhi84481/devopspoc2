@@ -20,10 +20,17 @@
              
          <dependency>
         <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
+        <artifactId>junit-jupiter-engine</artifactId> # junit-jupiter-engine is the actual test runner for executing those tests
         <version>${junit.jupiter.version}</version> # This variable will replace junit version form properties
         <scope>test</scope>
        </dependency>
+             
+       <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId> # junit-jupiter-api contains the necessary classes and annotations to write tests
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+    </dependency>
              
         <!-- selenium dependency -->
          <dependency>
@@ -49,6 +56,13 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                  <dependencies>
+                        <dependency>
+                            <groupId>org.junit.jupiter</groupId>
+                            <artifactId>junit-jupiter-engine</artifactId>
+                            <version>${junit.jupiter.version}</version>
+                        </dependency>
+                    </dependencies>
                 </configuration>
             </plugin>
             <plugin>
