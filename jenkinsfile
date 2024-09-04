@@ -12,25 +12,15 @@ spec:
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
-    # Jenkins will handle the arguments automatically
     volumeMounts:
     - mountPath: /var/jenkins_home
       name: jenkins-home
   - name: maven
-    image: maven:3.8.5-openjdk-11  # Use a Maven Docker image
-    command:
-    - cat
-    tty: true
+    image: maven:3.8.5-openjdk-11
   - name: jmeter
-    image: justb4/jmeter:5.5  # this is official apache jmeter image
-    command:
-    - cat
-    tty: true
+    image: justb4/jmeter:5.5
   - name: selenium
-    image: selenium/standalone-chrome:latest  # this is official selenium image
-    command:
-    - cat
-    tty: true
+    image: selenium/standalone-chrome:latest
   volumes:
   - name: jenkins-home
     emptyDir: {}
@@ -62,13 +52,13 @@ spec:
             steps {
                 container('selenium') {
                     script {
-                            echo 'Running Selenium tests...'
-                            mvn test
-                        '''
+                        echo 'Running Selenium tests...'
+                        sh 'mvn test'
                     }
                 }
             }
         }
+
         stage('JUnit Test') {
             steps {
                 container('maven') {
@@ -79,6 +69,7 @@ spec:
                 }
             }
         }
+
         stage('Load Performance Test with JMeter') {
             steps {
                 container('jmeter') {
@@ -92,6 +83,6 @@ spec:
                     }
                 }
             }
-        } 
+        }
     }
 }
