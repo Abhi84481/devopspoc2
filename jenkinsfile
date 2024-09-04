@@ -63,7 +63,7 @@ spec:
                 container('maven') {
                     script {
                         echo 'Running JUnit tests...'
-                        sh 'mvn test -Dtest=src/test/java/com/example/HelloWorldTest.java'
+                        sh 'mvn test -Dtest=com.example.HelloWorldTest'
                     }
                 }
             }
