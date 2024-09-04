@@ -87,7 +87,7 @@ spec:
                 container('selenium') {
                     script {
                             echo 'Running Selenium tests...'
-                            sh 'mvn test -Dtest=src/test/java/com/example/Selenium.java'
+                            sh 'mvn test -Dtest=com/example/SeleniumTest'
                     }
                 }
             }
