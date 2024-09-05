@@ -9,7 +9,7 @@ kind: Pod
 metadata:
   name: jenkins-pipeline
 spec:
-  serviceAccountName: jenkins-ksa  # Kubernetes service account
+  // serviceAccountName: jenkins-ksa  # Kubernetes service account
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
