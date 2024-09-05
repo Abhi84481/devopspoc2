@@ -74,6 +74,17 @@ spec:
             }
         }
 
+       stage('Deploy artifact') {
+            steps {
+                container('maven') {
+                    script {
+                        echo 'Building project with Maven...'
+                        sh 'mvn deploy'
+                    }
+                }
+            }
+        }
+
         stage('Configure Maven Settings') {
             steps {
                 container('maven') {
