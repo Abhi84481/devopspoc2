@@ -9,7 +9,7 @@ kind: Pod
 metadata:
   name: jenkins-pipeline
 spec:
-  serviceAccountName: jenkins-sa@devsecops-poc-433005.iam.gserviceaccount.com  # Kubernetes service account
+  serviceAccountName: jenkins-ksa  # Kubernetes service account
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
