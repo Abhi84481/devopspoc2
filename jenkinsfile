@@ -109,17 +109,12 @@ spec:
                 container('gcloud') {
                     script {
                         // Define the path to your JAR file
-                        def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
-
+                        // def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
                         // Set the Google Cloud project
                         // sh 'gcloud auth login --brief'
                         sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
-
-                        // Upload the JAR to Artifact Registry
-                        // set the default repo
-                        gcloud config set artifacts/repository maven-test
-                        // To set the location, run the command:
-                        gcloud config set artifacts/location us-west1
+                        gcloud artifacts packages list --repository=maven-test
+                        sh 'mvn deploy'
                 }
               }
             }
