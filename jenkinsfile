@@ -117,7 +117,7 @@ spec:
 
                         // Upload the JAR to Artifact Registry
                         gcloud artifacts versions upload \
-                                --repository=${ARTIFACT_REGISTRY_REPO} \
+                                --repository=${ARTIFACT_REGISTRY_REPO}
                                 //--package=${ARTIFACT_REGISTRY_PACKAGE} \
                                 //--version=${ARTIFACT_REGISTRY_VERSION} \
                                 --file=${jarPath} \
