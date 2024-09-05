@@ -44,15 +44,6 @@ spec:
         }
     }
 
-   environment {
-        // Set Google Cloud Project ID
-        GOOGLE_CLOUD_PROJECT = 'devsecops-poc-433005'
-        // Set Artifact Registry details
-        ARTIFACT_REGISTRY_REPO = 'maven-test'
-        //ARTIFACT_REGISTRY_PACKAGE = 'maven-project'
-        //ARTIFACT_REGISTRY_VERSION = '1.0-SNAPSHOT'
-        ARTIFACT_REGISTRY_LOCATION = 'us-west1'
-    }
 
     stages {
         stage('Clone Source Code') {
@@ -82,51 +73,6 @@ spec:
                         sh 'mvn deploy'
                     }
                 }
-            }
-        }
-
-        stage('Configure Maven Settings') {
-            steps {
-                container('maven') {
-                    script {
-                        // Create Maven settings.xml without service account key
-                        sh 'mkdir -p /home/jenkins/.m2'
-                        writeFile file: '/home/jenkins/.m2/settings.xml', text: '''
-<settings>
-    <profiles>
-        <profile>
-            <id>gcp</id>
-            <repositories>
-                <repository>
-                    <id>gcp-repo</id>
-                    <url>https://us-west1-maven.pkg.dev/${GOOGLE_CLOUD_PROJECT}/${ARTIFACT_REGISTRY_REPO}</url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
-
-    <activeProfiles>
-        <activeProfile>gcp</activeProfile>
-    </activeProfiles>
-</settings>
-                        '''
-                    }
-                }
-            }
-        }
-
-        stage('Upload to Artifact Registry') {
-            steps {
-                container('gcloud') {
-                    script {
-                        // Define the path to your JAR file
-                        // def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
-                        // Set the Google Cloud project
-                        // sh 'gcloud auth login --brief'
-                        sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
-                        sh 'mvn deploy'
-                }
-              }
             }
         }
 
