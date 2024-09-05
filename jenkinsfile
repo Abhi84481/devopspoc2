@@ -75,23 +75,25 @@ spec:
 
         stage('Upload to Artifact Registry') {
             steps {
-                script {
-                    // Define the path to your JAR file
-                    def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
+                container('gcloud') {
+                    script {
+                        // Define the path to your JAR file
+                        def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
 
-                    // Set the Google Cloud project
-                    sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
+                        // Set the Google Cloud project
+                        sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
 
-                    // Upload the JAR to Artifact Registry
-                    sh """
-                        gcloud artifacts versions upload \
-                            --repository=${ARTIFACT_REGISTRY_REPO} \
-                            --package=${ARTIFACT_REGISTRY_PACKAGE} \
-                            --version=${ARTIFACT_REGISTRY_VERSION} \
-                            --file=${jarPath} \
-                            --location=${ARTIFACT_REGISTRY_LOCATION}
-                    """
+                        // Upload the JAR to Artifact Registry
+                        sh """
+                            gcloud artifacts versions upload \
+                                --repository=${ARTIFACT_REGISTRY_REPO} \
+                                --package=${ARTIFACT_REGISTRY_PACKAGE} \
+                                --version=${ARTIFACT_REGISTRY_VERSION} \
+                                --file=${jarPath} \
+                                --location=${ARTIFACT_REGISTRY_LOCATION}
+                        """
                 }
+              }
             }
         }
 
