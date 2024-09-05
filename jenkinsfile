@@ -48,9 +48,9 @@ spec:
         // Set Google Cloud Project ID
         GOOGLE_CLOUD_PROJECT = 'devsecops-poc-433005'
         // Set Artifact Registry details
-        ARTIFACT_REGISTRY_REPO = 'maven-repo'
-        ARTIFACT_REGISTRY_PACKAGE = 'maven-project'
-        ARTIFACT_REGISTRY_VERSION = '1.0-SNAPSHOT'
+        ARTIFACT_REGISTRY_REPO = 'maven-test'
+        //ARTIFACT_REGISTRY_PACKAGE = 'maven-project'
+        //ARTIFACT_REGISTRY_VERSION = '1.0-SNAPSHOT'
         ARTIFACT_REGISTRY_LOCATION = 'us-west1'
     }
 
@@ -116,23 +116,12 @@ spec:
                         sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
 
                         // Upload the JAR to Artifact Registry
-                        sh """
-                            gcloud artifacts packages create ${ARTIFACT_REGISTRY_PACKAGE} \
+                        gcloud artifacts versions upload \
                                 --repository=${ARTIFACT_REGISTRY_REPO} \
-                                --location=${ARTIFACT_REGISTRY_LOCATION}
-
-                            gcloud artifacts versions create ${ARTIFACT_REGISTRY_VERSION} \
-                                --repository=${ARTIFACT_REGISTRY_REPO} \
-                                --package=${ARTIFACT_REGISTRY_PACKAGE} \
-                                --location=${ARTIFACT_REGISTRY_LOCATION}
-
-                            gcloud artifacts versions upload \
-                                --repository=${ARTIFACT_REGISTRY_REPO} \
-                                --package=${ARTIFACT_REGISTRY_PACKAGE} \
-                                --version=${ARTIFACT_REGISTRY_VERSION} \
+                                //--package=${ARTIFACT_REGISTRY_PACKAGE} \
+                                //--version=${ARTIFACT_REGISTRY_VERSION} \
                                 --file=${jarPath} \
                                 --location=${ARTIFACT_REGISTRY_LOCATION}
-                        """
                 }
               }
             }
