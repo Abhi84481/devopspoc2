@@ -9,7 +9,6 @@ kind: Pod
 metadata:
   name: jenkins-pipeline
 spec:
-  // serviceAccountName: jenkins-ksa  # Kubernetes service account
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
@@ -65,11 +64,11 @@ spec:
             }
         }
 
-       stage('Deploy artifact') {
+       stage('Deploy created artifact to artifact repository') {
             steps {
                 container('maven') {
                     script {
-                        echo 'Building project with Maven...'
+                        echo 'Deploying jar file...'
                         sh 'mvn deploy'
                     }
                 }
