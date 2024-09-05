@@ -9,6 +9,7 @@ kind: Pod
 metadata:
   name: jenkins-pipeline
 spec:
+  serviceAccountName: jenkins-sa@devsecops-poc-433005.iam.gserviceaccount.com  # Kubernetes service account
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
@@ -73,6 +74,35 @@ spec:
             }
         }
 
+        stage('Configure Maven Settings') {
+            steps {
+                container('maven') {
+                    script {
+                        // Create Maven settings.xml without service account key
+                        writeFile file: '/root/.m2/settings.xml', text: '''
+<settings>
+    <profiles>
+        <profile>
+            <id>gcp</id>
+            <repositories>
+                <repository>
+                    <id>gcp-repo</id>
+                    <url>https://us-west1-maven.pkg.dev/${GOOGLE_CLOUD_PROJECT}/${ARTIFACT_REGISTRY_REPO}</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>gcp</activeProfile>
+    </activeProfiles>
+</settings>
+                        '''
+                    }
+                }
+            }
+        }
+
         stage('Upload to Artifact Registry') {
             steps {
                 container('gcloud') {
@@ -81,10 +111,20 @@ spec:
                         def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
 
                         // Set the Google Cloud project
+                        sh 'gcloud auth login --brief'
                         sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
 
                         // Upload the JAR to Artifact Registry
                         sh """
+                            gcloud artifacts packages create ${ARTIFACT_REGISTRY_PACKAGE} \
+                                --repository=${ARTIFACT_REGISTRY_REPO} \
+                                --location=${ARTIFACT_REGISTRY_LOCATION}
+
+                            gcloud artifacts versions create ${ARTIFACT_REGISTRY_VERSION} \
+                                --repository=${ARTIFACT_REGISTRY_REPO} \
+                                --package=${ARTIFACT_REGISTRY_PACKAGE} \
+                                --location=${ARTIFACT_REGISTRY_LOCATION}
+
                             gcloud artifacts versions upload \
                                 --repository=${ARTIFACT_REGISTRY_REPO} \
                                 --package=${ARTIFACT_REGISTRY_PACKAGE} \
