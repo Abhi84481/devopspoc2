@@ -9,11 +9,10 @@ kind: Pod
 metadata:
   name: jenkins-pipeline
 spec:
-  // serviceAccountName: jenkins-ksa  # Kubernetes service account
+  serviceAccountName: jenkins-ksa  # Kubernetes service account for Workload Identity
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
-    # Jenkins will handle the arguments automatically
     volumeMounts:
     - mountPath: /var/jenkins_home
   - name: maven
@@ -22,17 +21,17 @@ spec:
     - cat
     tty: true
   - name: jmeter
-    image: justb4/jmeter:5.5  # this is official apache jmeter image
+    image: justb4/jmeter:5.5  # JMeter for performance testing
     command:
     - cat
     tty: true
   - name: selenium
-    image: selenium/standalone-chrome:latest  # this is official selenium image
+    image: selenium/standalone-chrome:latest  # Selenium image for browser testing
     command:
     - cat
     tty: true
   - name: gcloud
-    image: google/cloud-sdk:slim   # this is official gcloud image
+    image: google/cloud-sdk:slim  # GCloud SDK for artifact uploads
     command:
     - cat
     tty: true
@@ -44,9 +43,7 @@ spec:
     }
 
    environment {
-        // Set Google Cloud Project ID
         GOOGLE_CLOUD_PROJECT = 'devsecops-poc-433005'
-        // Set Artifact Registry details
         ARTIFACT_REGISTRY_REPO = 'maven-repo'
         ARTIFACT_REGISTRY_PACKAGE = 'maven-project'
         ARTIFACT_REGISTRY_VERSION = '1.0-SNAPSHOT'
@@ -77,8 +74,9 @@ spec:
             steps {
                 container('maven') {
                     script {
-                        // Create Maven settings.xml without service account key
-                        writeFile file: '/root/.m2/settings.xml', text: '''
+                        // Avoid using /root/.m2 and write to /home/jenkins/.m2 instead
+                        sh 'mkdir -p /home/jenkins/.m2'
+                        writeFile file: '/home/jenkins/.m2/settings.xml', text: '''
 <settings>
     <profiles>
         <profile>
@@ -91,7 +89,6 @@ spec:
             </repositories>
         </profile>
     </profiles>
-
     <activeProfiles>
         <activeProfile>gcp</activeProfile>
     </activeProfiles>
@@ -106,33 +103,20 @@ spec:
             steps {
                 container('gcloud') {
                     script {
-                        // Define the path to your JAR file
-                        def jarPath = '/home/jenkins/agent/workspace/pipeline-demo/target/maven-project-1.0-SNAPSHOT.jar'
+                        def jarPath = 'target/maven-project-1.0-SNAPSHOT.jar'
+                        echo "Uploading ${jarPath} to Artifact Registry..."
 
-                        // Set the Google Cloud project
-                        sh 'gcloud auth login --brief'
-                        sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
-
-                        // Upload the JAR to Artifact Registry
+                        // Workload Identity is already attached to the pod, so no need for `gcloud auth login`
                         sh """
-                            gcloud artifacts packages create ${ARTIFACT_REGISTRY_PACKAGE} \
-                                --repository=${ARTIFACT_REGISTRY_REPO} \
-                                --location=${ARTIFACT_REGISTRY_LOCATION}
-
-                            gcloud artifacts versions create ${ARTIFACT_REGISTRY_VERSION} \
+                            gcloud config set project ${GOOGLE_CLOUD_PROJECT}
+                            gcloud artifacts versions upload ${ARTIFACT_REGISTRY_VERSION} \
                                 --repository=${ARTIFACT_REGISTRY_REPO} \
                                 --package=${ARTIFACT_REGISTRY_PACKAGE} \
-                                --location=${ARTIFACT_REGISTRY_LOCATION}
-
-                            gcloud artifacts versions upload \
-                                --repository=${ARTIFACT_REGISTRY_REPO} \
-                                --package=${ARTIFACT_REGISTRY_PACKAGE} \
-                                --version=${ARTIFACT_REGISTRY_VERSION} \
-                                --file=${jarPath} \
-                                --location=${ARTIFACT_REGISTRY_LOCATION}
+                                --location=${ARTIFACT_REGISTRY_LOCATION} \
+                                --file=${jarPath}
                         """
+                    }
                 }
-              }
             }
         }
 
@@ -146,26 +130,24 @@ spec:
                 }
             }
         }
+
         stage('Load Performance Test with JMeter') {
             steps {
                 container('jmeter') {
                     script {
-                        // Verify that the JMeter test plan file exists
-                        echo 'Checking if JMeter test plan file exists...'
-                        sh 'ls -l load_test_plan.jmx'
-                        // Run JMeter performance tests
                         echo 'Running JMeter load test...'
                         sh 'jmeter -n -t load_test_plan.jmx -l results.jtl -e -o /results'
                     }
                 }
             }
         }
+
         stage('Selenium Test') {
             steps {
                 container('selenium') {
                     script {
-                            echo 'Running Selenium tests...'
-                            sh 'mvn test -Dtest=com/example/SeleniumTest'
+                        echo 'Running Selenium tests...'
+                        sh 'mvn test -Dtest=com/example/SeleniumTest'
                     }
                 }
             }
