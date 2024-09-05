@@ -16,6 +16,7 @@ spec:
     # Jenkins will handle the arguments automatically
     volumeMounts:
     - mountPath: /var/jenkins_home
+      name: jenkins-home
   - name: maven
     image: maven:3.8.5-openjdk-11  # Use a Maven Docker image
     command:
