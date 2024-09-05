@@ -113,7 +113,6 @@ spec:
                         // Set the Google Cloud project
                         // sh 'gcloud auth login --brief'
                         sh 'gcloud config set project $GOOGLE_CLOUD_PROJECT'
-                        gcloud artifacts packages list --repository=maven-test
                         sh 'mvn deploy'
                 }
               }
