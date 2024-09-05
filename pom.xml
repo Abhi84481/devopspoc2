@@ -15,7 +15,8 @@
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <testng.version>7.4.0</testng.version>
     </properties>
-<!-- Set default repo -->
+
+    <!-- Set default repo -->
     <distributionManagement>
         <snapshotRepository>
             <id>artifact-registry</id>
@@ -40,7 +41,7 @@
         </repository>
     </repositories>
 
-    <!-- repo default end here, gcloud artifacts print-settings mvn --repository=maven-test --location=us-west1 this is the cmd -->
+    <!-- Repo default end here, gcloud artifacts print-settings mvn --repository=maven-test --location=us-west1 this is the cmd -->
 
     <dependencies>
         <!-- JUnit 5 dependency -->
@@ -111,7 +112,7 @@
             </plugin>
         </plugins>
 
-     <!-- Set default repo -->
+        <!-- Set default repo -->
         <extensions>
             <extension>
                 <groupId>com.google.cloud.artifactregistry</groupId>
@@ -119,7 +120,7 @@
                 <version>2.2.0</version>
             </extension>
         </extensions>
-             
+
     </build>
 
 </project>
