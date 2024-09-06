@@ -102,11 +102,13 @@ spec:
         }
         stage('Selenium Test') {
             steps {
+                 container('maven') {
                     script {
                             echo 'Running Selenium tests...'
                             sh 'mvn test -Dtest=com/example/SeleniumTest'
                     }
                 }
+             }
           }
       }
 }
