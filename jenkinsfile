@@ -105,6 +105,11 @@ spec:
                  container('maven') {
                     script {
                             echo 'Running Selenium tests...'
+                            sh '''
+                    wget -q https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -O /home/jenkins/agent/workspace/chromedriver_linux64.zip
+                    unzip -o /home/jenkins/agent/workspace/chromedriver_linux64.zip -d /home/jenkins/agent/workspace
+                    chmod +x /home/jenkins/agent/workspace/chromedriver
+                    '''
                             sh 'mvn test -Dtest=com/example/SeleniumTest'
                     }
                 }
