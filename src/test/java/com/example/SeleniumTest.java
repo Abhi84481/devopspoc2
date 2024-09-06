@@ -1,15 +1,15 @@
 package dev.selenium.hello;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SeleniumTest {
     private WebDriver driver;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // Initialize the WebDriver
         driver = new ChromeDriver();
@@ -21,7 +21,7 @@ public class SeleniumTest {
         driver.get("https://selenium.dev");
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         // Clean up
         if (driver != null) {
