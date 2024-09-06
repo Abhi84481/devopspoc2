@@ -100,18 +100,29 @@ spec:
                 }
             }
         }
+
+        stage('Setup ChromeDriver') {
+    steps {
+        container('selenium') {
+            script {
+                echo 'Setting up ChromeDriver...'
+                sh '''
+                apt-get update
+                apt-get install -y libglib2.0-0
+                wget -q https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -O /usr/local/bin/chromedriver_linux64.zip
+                unzip -o /usr/local/bin/chromedriver_linux64.zip -d /usr/local/bin
+                chmod +x /usr/local/bin/chromedriver
+                '''
+            }
+        }
+    }
+}
+
         stage('Selenium Test') {
             steps {
-                 container('maven') {
+                 container('selenium') {
                     script {
                             echo 'Running Selenium tests...'
-                            sh '''
-                        mkdir -p /usr/local/bin
-                        cd /usr/local/bin
-                        wget -q https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -O /usr/local/bin/chromedriver_linux64.zip
-                        unzip -o /usr/local/bin/chromedriver_linux64.zip -d /usr/local/bin
-                        chmod +x /usr/local/bin/chromedriver
-                    '''
                             sh 'mvn test -Dtest=com/example/SeleniumTest'
                     }
                 }
