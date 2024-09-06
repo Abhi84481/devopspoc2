@@ -70,7 +70,7 @@ spec:
                 container('maven') {
                     script {
                         echo 'Deploying jar file...'
-                        sh 'mvn deploy'
+                        sh 'mvn deploy -DskipTests'
                     }
                 }
             }
