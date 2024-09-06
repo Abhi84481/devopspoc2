@@ -101,6 +101,9 @@ spec:
             }
         }
         stage('Selenium Test') {
+             agent{
+                 label 'selenium'
+                }
             steps {
                 container('selenium') {
                     script {
