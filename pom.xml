@@ -72,12 +72,6 @@
         <version>5.8.2</version>
         <scope>test</scope>
     </dependency>
-    <! Selenium tests but indicates that SLF4J  -->
-    <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-simple</artifactId>
-    <version>1.7.32</version>
-    </dependency>
     </dependencies>
 
     <build>
