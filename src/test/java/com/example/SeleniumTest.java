@@ -13,7 +13,7 @@ public class SeleniumTest {
     @BeforeEach
     public void setUp() {
         // Set the path to the ChromeDriver executable
-        System.setProperty("webdriver.chrome.driver", "/home/jenkins/agent/workspace/");
+        System.setProperty("webdriver.chrome.driver", "/home/jenkins/agent/workspace/chromedriver");
 
         // Initialize the WebDriver
         ChromeOptions options = new ChromeOptions();
