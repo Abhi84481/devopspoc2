@@ -9,6 +9,7 @@ kind: Pod
 metadata:
   name: jenkins-pipeline
 spec:
+  serviceAccountName: jenkins-ksa
   containers:
   - name: jnlp
     image: jenkins/inbound-agent:latest
@@ -100,9 +101,6 @@ spec:
             }
         }
         stage('Selenium Test') {
-            agent{
-                 label 'selenium'
-                }
             steps {
                 container('selenium') {
                     script {
