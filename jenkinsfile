@@ -107,6 +107,8 @@ spec:
             script {
                 echo 'Setting up ChromeDriver...'
                 sh '''
+                makdir /usr/local/bin
+                cd /usr/local/bin
                 apt-get update
                 apt-get install -y libglib2.0-0
                 wget -q https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -O /usr/local/bin/chromedriver_linux64.zip
