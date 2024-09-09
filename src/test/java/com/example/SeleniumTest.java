@@ -13,6 +13,7 @@ public class SeleniumTest {
 
     @BeforeEach
     public void setUp() throws Exception {
+        // Connect to the Selenium server via the service URL
         driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), new ChromeOptions());
     }
 
