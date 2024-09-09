@@ -27,16 +27,6 @@ spec:
     command:
     - cat
     tty: true
-  - name: selenium
-    image: selenium/standalone-chrome:latest  # this is official selenium image
-    command:
-    - cat
-    tty: true
-  - name: gcloud
-    image: google/cloud-sdk:slim   # this is official gcloud image
-    command:
-    - cat
-    tty: true
   volumes:
   - name: jenkins-home
     emptyDir: {}
@@ -106,7 +96,8 @@ spec:
                  container('maven') {
                     script {
                             echo 'Running Selenium tests...'
-                            sh 'mvn test -Dtest=com/example/SeleniumTest'
+                            // sh 'mvn test -Dtest=com/example/SeleniumTest'
+                            sh 'mvn test -Dtest=com.example.SeleniumTest -Dwebdriver.base.url=http://selenium:4444/wd/hub'
                     }
                 }
              }
