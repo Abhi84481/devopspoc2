@@ -39,7 +39,7 @@ spec:
         stage('Clone Source Code') {
             steps {
                 script {
-                    git url: 'https://github.com/prabhatu012345/jenkins-maven-pipeline.git', branch: 'main'
+                    git url: 'https://github.com/Abhi84481/devopspoc2.git', branch: 'main'
                 }
             }
         }
